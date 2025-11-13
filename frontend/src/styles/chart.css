@@ -1,0 +1,17 @@
+.chart-container {
+  width: 100%;
+  height: 320px;
+}
+
+.chart-empty {
+  color: var(--color-text-muted);
+}
+
+.recharts-legend-item text {
+  fill: var(--color-text) !important;
+}
+
+.recharts-default-tooltip {
+  border-radius: 12px;
+  border: none;
+}
