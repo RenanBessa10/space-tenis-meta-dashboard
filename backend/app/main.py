@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .routes_meta import router as meta_router
 
-app = FastAPI(title="Space Tênis Meta Dashboard API")
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
