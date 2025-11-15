@@ -13,8 +13,10 @@ class MetaAPIError(Exception):
 
 
 def _get_meta_headers() -> Dict[str, str]:
+    """Return the authentication headers for Meta API requests."""
+
     return {
-        "Authorization": f"Bearer {settings.meta_access_token}",
+        "Authorization": f"Bearer {settings.META_ACCESS_TOKEN}",
     }
 
 
@@ -29,10 +31,11 @@ def fetch_insights_from_meta(
     The request fetches active campaigns only and handles pagination until the
     requested limit is reached.
     """
+
     base_url = (
-        f"https://graph.facebook.com/"
-        f"{settings.meta_api_version}/"
-        f"{settings.meta_ad_account_id}/insights"
+        "https://graph.facebook.com/"
+        f"{settings.META_API_VERSION}/"
+        f"{settings.META_AD_ACCOUNT_ID}/insights"
     )
 
     params: Dict[str, Any] = {

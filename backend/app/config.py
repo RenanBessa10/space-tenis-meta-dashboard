@@ -1,13 +1,16 @@
 from functools import lru_cache
+
 from pydantic import BaseSettings, Field
 
 
 class Settings(BaseSettings):
-    meta_access_token: str = Field(..., env="META_ACCESS_TOKEN")
-    meta_ad_account_id: str = Field(..., env="META_AD_ACCOUNT_ID")
-    meta_api_version: str = Field("v17.0", env="META_API_VERSION")
-    openai_api_key: str = Field(..., env="OPENAI_API_KEY")
-    system_brand_name: str = Field("Space Tênis", env="SYSTEM_BRAND_NAME")
+    """Application settings loaded from environment variables."""
+
+    META_ACCESS_TOKEN: str = Field("", env="META_ACCESS_TOKEN")
+    META_AD_ACCOUNT_ID: str = Field("", env="META_AD_ACCOUNT_ID")
+    META_API_VERSION: str = Field("v17.0", env="META_API_VERSION")
+    OPENAI_API_KEY: str = Field("", env="OPENAI_API_KEY")
+    SYSTEM_BRAND_NAME: str = Field("Space Tênis", env="SYSTEM_BRAND_NAME")
 
     class Config:
         env_file = ".env"
@@ -16,4 +19,6 @@ class Settings(BaseSettings):
 
 @lru_cache()
 def get_settings() -> Settings:
+    """Return a cached settings instance."""
+
     return Settings()
