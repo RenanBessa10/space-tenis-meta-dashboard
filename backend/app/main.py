@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .meta_router import router as meta_router
-
+from .routes_meta import router as meta_router
 
 app = FastAPI(title="Space Tênis Meta Dashboard API")
 
@@ -17,6 +16,6 @@ app.add_middleware(
 app.include_router(meta_router)
 
 
-@app.get("/")
-def read_root() -> dict:
-    return {"message": "Space Tênis Meta Dashboard API"}
+@app.get("/health")
+def health() -> dict:
+    return {"status": "ok"}

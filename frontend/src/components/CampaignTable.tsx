@@ -3,21 +3,21 @@ import '../styles/table.css'
 type Campaign = {
   campaign_id: string
   campaign_name: string
-  objective: string
+  objective?: string | null
   spend: number
   impressions: number
   clicks: number
   ctr: number
   cpc: number
   cpm: number
-  frequency: number
-  purchases: number
-  purchase_value: number
-  purchase_roas: number
+  conversions: number
+  cpa: number | null
+  roas: number | null
 }
 
 type CampaignTableProps = {
   campaigns: Campaign[]
+  avgCtr: number
   isLoading: boolean
 }
 
@@ -35,7 +35,7 @@ const formatNumber = (value: number, decimals = 2) =>
     maximumFractionDigits: decimals
   })
 
-export default function CampaignTable({ campaigns, isLoading }: CampaignTableProps) {
+export default function CampaignTable({ campaigns, avgCtr, isLoading }: CampaignTableProps) {
   if (isLoading && campaigns.length === 0) {
     return <div className="table-loading">Carregando campanhas...</div>
   }
@@ -43,6 +43,8 @@ export default function CampaignTable({ campaigns, isLoading }: CampaignTablePro
   if (!isLoading && campaigns.length === 0) {
     return <div className="table-empty">Nenhuma campanha encontrada.</div>
   }
+
+  const lowCtrThreshold = avgCtr > 0 ? avgCtr * 0.7 : 0
 
   return (
     <div className="table-wrapper">
@@ -57,29 +59,30 @@ export default function CampaignTable({ campaigns, isLoading }: CampaignTablePro
             <th>CTR</th>
             <th>CPC</th>
             <th>CPM</th>
-            <th>Freq.</th>
-            <th>Compras</th>
-            <th>Valor</th>
+            <th>Conversões</th>
+            <th>CPA</th>
             <th>ROAS</th>
           </tr>
         </thead>
         <tbody>
-          {campaigns.map((campaign) => (
-            <tr key={campaign.campaign_id}>
-              <td>{campaign.campaign_name}</td>
-              <td>{campaign.objective}</td>
-              <td>{formatCurrency(campaign.spend)}</td>
-              <td>{campaign.impressions.toLocaleString('pt-BR')}</td>
-              <td>{campaign.clicks.toLocaleString('pt-BR')}</td>
-              <td>{formatNumber(campaign.ctr)}%</td>
-              <td>{formatCurrency(campaign.cpc)}</td>
-              <td>{formatCurrency(campaign.cpm)}</td>
-              <td>{formatNumber(campaign.frequency)}</td>
-              <td>{campaign.purchases}</td>
-              <td>{formatCurrency(campaign.purchase_value)}</td>
-              <td>{formatNumber(campaign.purchase_roas)}</td>
-            </tr>
-          ))}
+          {campaigns.map((campaign) => {
+            const isLowCtr = lowCtrThreshold > 0 && campaign.ctr < lowCtrThreshold
+            return (
+              <tr key={campaign.campaign_id} className={isLowCtr ? 'low-ctr' : undefined}>
+                <td>{campaign.campaign_name}</td>
+                <td>{campaign.objective ?? '—'}</td>
+                <td>{formatCurrency(campaign.spend)}</td>
+                <td>{campaign.impressions.toLocaleString('pt-BR')}</td>
+                <td>{campaign.clicks.toLocaleString('pt-BR')}</td>
+                <td>{formatNumber(campaign.ctr)}%</td>
+                <td>{formatCurrency(campaign.cpc)}</td>
+                <td>{formatCurrency(campaign.cpm)}</td>
+                <td>{campaign.conversions}</td>
+                <td>{campaign.cpa ? formatCurrency(campaign.cpa) : '—'}</td>
+                <td>{campaign.roas ? `${formatNumber(campaign.roas)}x` : '—'}</td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     </div>

@@ -1,13 +1,12 @@
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar } from 'recharts'
+import { ResponsiveContainer, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar, Line } from 'recharts'
 import '../styles/chart.css'
 
 type Campaign = {
   campaign_id: string
   campaign_name: string
   spend: number
-  purchases: number
-  purchase_value: number
-  purchase_roas: number
+  conversions: number
+  roas: number | null
 }
 
 type PerformanceChartProps = {
@@ -19,12 +18,18 @@ export default function PerformanceChart({ campaigns }: PerformanceChartProps) {
     return <div className="chart-empty">Sem dados suficientes para exibir o gráfico.</div>
   }
 
-  const chartData = campaigns.map((campaign) => ({
-    name: campaign.campaign_name,
-    Investimento: Number(campaign.spend.toFixed(2)),
-    Receitas: Number(campaign.purchase_value.toFixed(2)),
-    ROAS: Number(campaign.purchase_roas.toFixed(2))
-  }))
+  const chartData = campaigns.map((campaign) => {
+    const roas = campaign.roas ?? 0
+    const revenue = roas > 0 ? campaign.spend * roas : 0
+
+    return {
+      name: campaign.campaign_name,
+      Investimento: Number(campaign.spend.toFixed(2)),
+      ReceitaEstimada: Number(revenue.toFixed(2)),
+      ROAS: Number(roas.toFixed(2)),
+      Conversoes: campaign.conversions
+    }
+  })
 
   return (
     <div className="chart-container">
@@ -42,7 +47,7 @@ export default function PerformanceChart({ campaigns }: PerformanceChartProps) {
           />
           <Legend wrapperStyle={{ color: 'var(--color-text)' }} />
           <Bar dataKey="Investimento" fill="var(--color-primary)" radius={[6, 6, 0, 0]} />
-          <Bar dataKey="Receitas" fill="var(--color-secondary)" radius={[6, 6, 0, 0]} />
+          <Bar dataKey="ReceitaEstimada" fill="var(--color-secondary)" radius={[6, 6, 0, 0]} />
           <Line type="monotone" dataKey="ROAS" stroke="var(--color-accent)" strokeWidth={3} yAxisId={0} />
         </BarChart>
       </ResponsiveContainer>

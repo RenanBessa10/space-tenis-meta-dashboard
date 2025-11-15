@@ -36,6 +36,14 @@ tbody tr:hover {
   background: rgba(56, 189, 248, 0.08);
 }
 
+tbody tr.low-ctr {
+  background: rgba(239, 68, 68, 0.12);
+}
+
+tbody tr.low-ctr:hover {
+  background: rgba(239, 68, 68, 0.18);
+}
+
 .table-loading,
 .table-empty {
   color: var(--color-text-muted);

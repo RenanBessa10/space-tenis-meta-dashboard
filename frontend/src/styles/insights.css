@@ -1,0 +1,27 @@
+.insights-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.insights-list {
+  list-style: disc;
+  padding-left: 1.25rem;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.insights-loading,
+.insights-empty {
+  color: var(--color-text-muted);
+  background: rgba(56, 189, 248, 0.05);
+  border: 1px dashed rgba(56, 189, 248, 0.25);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+}
+
+.insights-list li {
+  line-height: 1.5;
+}

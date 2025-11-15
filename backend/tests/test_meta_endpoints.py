@@ -1,58 +1,68 @@
-from datetime import date
+from typing import Any, Dict, List
 
+import pytest
 from fastapi.testclient import TestClient
 
 from app.main import app
-from app.config import Settings
-from app.deps import get_app_settings
-
-
-def override_settings() -> Settings:
-    return Settings(
-        meta_access_token="test",
-        meta_ad_account_id="act_test",
-        meta_api_version="v17.0",
-        openai_api_key="sk-test",
-        system_brand_name="Space Tênis",
-    )
-
-
-def setup_module(module):  # type: ignore[unused-argument]
-    app.dependency_overrides[get_app_settings] = override_settings
-
-
-def teardown_module(module):  # type: ignore[unused-argument]
-    app.dependency_overrides.pop(get_app_settings, None)
-
 
 client = TestClient(app)
 
 
-def test_health_check():
-    response = client.get("/meta/health")
-    assert response.status_code == 200
-    assert response.json() == {"status": "ok"}
+def _sample_meta_payload() -> List[Dict[str, Any]]:
+    return [
+        {
+            "campaign_id": "123",
+            "campaign_name": "Campanha Teste",
+            "objective": "CONVERSIONS",
+            "impressions": "1000",
+            "clicks": "80",
+            "spend": "120.50",
+            "actions": [{"action_type": "purchase", "value": "6"}],
+            "action_values": [{"action_type": "purchase", "value": "720.00"}],
+        },
+        {
+            "campaign_id": "456",
+            "campaign_name": "Campanha Awareness",
+            "objective": "AWARENESS",
+            "impressions": "5000",
+            "clicks": "60",
+            "spend": "200.00",
+            "actions": [],
+            "action_values": [],
+        },
+    ]
 
 
-def test_insights_response_contains_kpis_and_campaigns():
+def test_meta_insights_response(monkeypatch):
+    from app import routes_meta
+
+    def mock_fetch_insights_from_meta(*args: Any, **kwargs: Any):  # type: ignore[unused-argument]
+        return _sample_meta_payload()
+
+    monkeypatch.setattr(routes_meta, "fetch_insights_from_meta", mock_fetch_insights_from_meta)
+
     response = client.get("/meta/insights")
+
     assert response.status_code == 200
     data = response.json()
 
-    assert data["brand"] == "Space Tênis"
-    assert data["date_generated"] == date.today().isoformat()
-    assert "kpis" in data
+    assert "summary" in data
     assert "campaigns" in data
-    assert isinstance(data["campaigns"], list)
-    assert len(data["campaigns"]) > 0
+    assert "insights" in data
 
+    summary = data["summary"]
+    assert summary["total_spend"] == 320.5
+    assert summary["total_impressions"] == 6000
+    assert summary["total_clicks"] == 140
+    assert summary["total_conversions"] == 6
 
-def test_diagnostics_returns_alerts():
-    response = client.get("/meta/diagnostics")
-    assert response.status_code == 200
-    data = response.json()
+    campaigns = data["campaigns"]
+    assert len(campaigns) == 2
+    assert campaigns[0]["campaign_name"] == "Campanha Teste"
+    assert campaigns[0]["conversions"] == 6
+    assert campaigns[0]["roas"] == pytest.approx(5.9751, rel=1e-3)
 
-    assert data["brand"] == "Space Tênis"
-    assert "alerts" in data
-    assert isinstance(data["alerts"], list)
-    assert any(alert["metric"] == "ctr" for alert in data["alerts"])
+    insights = data["insights"]
+    assert isinstance(insights, list)
+    assert len(insights) >= 2
+    assert any("CTR" in insight for insight in insights)
