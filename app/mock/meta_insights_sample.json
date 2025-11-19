@@ -1,0 +1,90 @@
+{
+  "data": [
+    {
+      "campaign_id": "cmp_1",
+      "campaign_name": "Lançamento Space",
+      "date_start": "2025-01-01",
+      "date_stop": "2025-01-01",
+      "impressions": "12000",
+      "reach": "8000",
+      "clicks": "560",
+      "spend": "850.45",
+      "objective": "CONVERSIONS",
+      "actions": [
+        {"action_type": "purchase", "value": "32"},
+        {"action_type": "link_click", "value": "560"}
+      ],
+      "action_values": [
+        {"action_type": "purchase", "value": "4200"}
+      ]
+    },
+    {
+      "campaign_id": "cmp_2",
+      "campaign_name": "Remarketing Pro",
+      "date_start": "2025-01-01",
+      "date_stop": "2025-01-01",
+      "impressions": "9000",
+      "reach": "6000",
+      "clicks": "400",
+      "spend": "640.00",
+      "objective": "CONVERSIONS",
+      "actions": [
+        {"action_type": "purchase", "value": "18"},
+        {"action_type": "lead", "value": "22"}
+      ],
+      "action_values": [
+        {"action_type": "purchase", "value": "2300"}
+      ]
+    },
+    {
+      "campaign_id": "cmp_3",
+      "campaign_name": "Topo Funil",
+      "date_start": "2025-01-02",
+      "date_stop": "2025-01-02",
+      "impressions": "25000",
+      "reach": "20000",
+      "clicks": "300",
+      "spend": "1200.00",
+      "objective": "AWARENESS",
+      "actions": [
+        {"action_type": "lead", "value": "5"}
+      ],
+      "action_values": []
+    },
+    {
+      "campaign_id": "cmp_1",
+      "campaign_name": "Lançamento Space",
+      "date_start": "2025-01-02",
+      "date_stop": "2025-01-02",
+      "impressions": "15000",
+      "reach": "10000",
+      "clicks": "610",
+      "spend": "920.10",
+      "objective": "CONVERSIONS",
+      "actions": [
+        {"action_type": "purchase", "value": "35"}
+      ],
+      "action_values": [
+        {"action_type": "purchase", "value": "4600"}
+      ]
+    },
+    {
+      "campaign_id": "cmp_2",
+      "campaign_name": "Remarketing Pro",
+      "date_start": "2025-01-02",
+      "date_stop": "2025-01-02",
+      "impressions": "11000",
+      "reach": "7000",
+      "clicks": "450",
+      "spend": "780.20",
+      "objective": "CONVERSIONS",
+      "actions": [
+        {"action_type": "purchase", "value": "25"},
+        {"action_type": "lead", "value": "30"}
+      ],
+      "action_values": [
+        {"action_type": "purchase", "value": "3150"}
+      ]
+    }
+  ]
+}
