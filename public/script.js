@@ -372,6 +372,9 @@ function renderFiltros() {
   ].join('')
 }
 
+// Pega as libs globais carregadas no index.html
+const { React, ReactDOM, Recharts } = window
+
 const { ResponsiveContainer, LineChart, Line, CartesianGrid, Tooltip, Legend, XAxis, YAxis } = Recharts
 const chartRoot = ReactDOM.createRoot(document.getElementById('chartRoot'))
 
