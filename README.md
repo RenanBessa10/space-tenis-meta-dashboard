@@ -51,3 +51,6 @@ Dashboard inicial para monitoramento de preços de tênis esportivos, comparando
 
 ## Estrutura do banco (Supabase)
 Veja [`db/schema.sql`](db/schema.sql) para as tabelas e relacionamentos, incluindo o vínculo `produto_concorrente_urls` para mapear URLs específicas por SKU.
+
+## Knowledge Base rápida
+Consulte [`docs/knowledge-base.md`](docs/knowledge-base.md) para a visão consolidada do produto, arquitetura, diretrizes e design system usados no monitor de preços.
