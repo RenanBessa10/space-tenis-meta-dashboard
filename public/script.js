@@ -372,11 +372,43 @@ function renderFiltros() {
   ].join('')
 }
 
-// Pega as libs globais carregadas no index.html
-const { React, ReactDOM, Recharts } = window
+// --- Configuração dos componentes de gráfico --- //
+// Tenta usar o Recharts do CDN; se não tiver, cria componentes neutros
 
-const { ResponsiveContainer, LineChart, Line, CartesianGrid, Tooltip, Legend, XAxis, YAxis } = Recharts
-const chartRoot = ReactDOM.createRoot(document.getElementById('chartRoot'))
+const ReactGlobal = window.React
+const ReactDOMGlobal = window.ReactDOM
+
+let ResponsiveContainer
+let LineChart
+let Line
+let CartesianGrid
+let Tooltip
+let Legend
+let XAxis
+let YAxis
+
+if (window.Recharts) {
+  // Lib carregou corretamente
+  ;({ ResponsiveContainer, LineChart, Line, CartesianGrid, Tooltip, Legend, XAxis, YAxis } =
+    window.Recharts)
+} else {
+  console.warn('Recharts não carregado; gráficos desativados temporariamente.')
+
+  // Componentes "no-op" para não quebrar o React
+  ResponsiveContainer = ({ children }) =>
+    ReactGlobal.createElement('div', { style: { width: '100%', height: '300px' } }, children)
+
+  LineChart = () => null
+  Line = () => null
+  CartesianGrid = () => null
+  Tooltip = () => null
+  Legend = () => null
+  XAxis = () => null
+  YAxis = () => null
+}
+
+// Usa o ReactDOM global para montar o gráfico (ou o placeholder)
+const chartRoot = ReactDOMGlobal.createRoot(document.getElementById('chartRoot'))
 
 function PriceHistoryChart({ data }) {
   if (!data || data.length === 0) {
