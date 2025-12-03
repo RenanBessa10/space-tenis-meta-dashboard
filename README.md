@@ -28,6 +28,14 @@ Dashboard inicial para monitoramento de preços de tênis esportivos, comparando
 
 > Dica: para usar Supabase real, defina as variáveis `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` no `.env`. Sem elas, o app usa um banco em memória com dados de exemplo.
 
+## Deploy na Vercel (corrige 404 NOT_FOUND)
+- O projeto já inclui `vercel.json` e um handler serverless em `api/index.js` que reutiliza o Express (`src/app.js`).
+- Passos rápidos:
+  1. Faça login no Vercel CLI: `vercel login`.
+  2. Rode uma prévia local: `vercel dev` (usa `api/index.js` e os estáticos de `public`).
+  3. Publique: `vercel --prod`.
+- A rota `/api/*` é redirecionada para a função Node e todo o restante cai no `public/index.html`, evitando o erro 404.
+
 ## Endpoints principais
 - `POST /api/importar` — dispara importação mock do ecommerce.
 - `POST /api/concorrentes` — adiciona uma fonte de concorrência (`nome`, `url_base`).
