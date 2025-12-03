@@ -421,3 +421,105 @@ select:focus {
     height: 260px;
   }
 }
+
+/* ================================
+   AJUSTES FINOS DE LAYOUT (RENAN)
+   ================================ */
+
+/* Tipografia e espaçamento base */
+body {
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+/* Mantém as seções mais separadas */
+main {
+  max-width: 1120px;
+  margin: 0 auto;
+  gap: 40px;
+}
+
+/* Deixa cada seção com “cara” de bloco separado */
+main > section {
+  padding: 4px 2px;
+}
+
+/* Títulos mais fortes e alinhados */
+.section-title h2 {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+
+.section-title small {
+  font-size: 13px;
+}
+
+/* Cards com mais respiro e consistência */
+.card {
+  padding: 20px 20px 18px;
+}
+
+/* Grid dos alertas mais organizado em desktop */
+.grid.alerts-grid {
+  align-items: stretch;
+}
+
+/* Formulários: campos e botões bem alinhados */
+.form-grid {
+  align-items: flex-end;
+}
+
+/* Inputs um pouco mais “respiráveis” */
+input,
+select {
+  font-size: 14px;
+  padding: 9px 12px;
+}
+
+/* Lista de alertas com altura mais controlada */
+.alert-list {
+  max-height: 280px;
+}
+
+/* Tabela com cabeçalho mais limpo */
+.table th {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+/* Área do gráfico com borda mais discreta */
+.chart-area {
+  border-radius: 18px;
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+/* Em telas maiores, tudo mais “simétrico” */
+@media (min-width: 1024px) {
+  header {
+    padding-inline: 32px;
+  }
+
+  main {
+    gap: 48px;
+  }
+
+  .filters {
+    padding: 18px 18px 14px;
+  }
+}
+
+/* Em telas pequenas, garante que nada fique espremido */
+@media (max-width: 640px) {
+  .card {
+    padding: 16px 14px;
+  }
+
+  .section-title {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filters {
+    padding: 12px;
+  }
+}
