@@ -708,3 +708,36 @@ async function init() {
 }
 
 init()
+
+async function gerarAnaliseIA() {
+  const botao = document.getElementById("btn-analise-ia");
+  const resultado = document.getElementById("analise-ia-resultado");
+
+  if (!botao || !resultado) {
+    console.error("Elementos de análise IA não encontrados no HTML.");
+    return;
+  }
+
+  botao.disabled = true;
+  botao.innerText = "Gerando análise...";
+  resultado.textContent = "";
+
+  try {
+    const res = await fetch(
+      "https://space-tenis-meta-dashboard-3rpc-iahudlaup.vercel.app/api/analise-precos"
+    );
+    const json = await res.json();
+
+    if (!res.ok) {
+      throw new Error(json.error || "Erro ao gerar análise");
+    }
+
+    resultado.textContent = json.analise;
+  } catch (e) {
+    console.error(e);
+    resultado.textContent = "Erro ao gerar análise: " + e.message;
+  } finally {
+    botao.disabled = false;
+    botao.innerText = "Analisar preços com IA";
+  }
+}
