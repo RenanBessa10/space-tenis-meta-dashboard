@@ -1,23 +1,12 @@
 {
   "name": "space-tenis-meta-dashboard",
   "version": "1.0.0",
-  "description": "Dashboard para monitoramento de preços de tênis entre ecommerce e concorrentes.",
-  "main": "src/server.js",
+  "description": "Dashboard para monitoramento de preços de tênis.",
   "type": "module",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "NODE_ENV=development node src/server.js",
-    "lint": "eslint ."
+    "dev": "NODE_ENV=development node src/server.js"
   },
-  "keywords": [
-    "monitoramento",
-    "precos",
-    "ecommerce",
-    "tenis",
-    "supabase"
-  ],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@supabase/supabase-js": "^2.48.0",
     "openai": "^4.77.0",
@@ -25,10 +14,5 @@
     "express": "^4.19.2",
     "node-cron": "^3.0.3",
     "uuid": "^13.0.0"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.9.1",
-    "eslint": "^9.9.1",
-    "globals": "^16.5.0"
   }
 }
